@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пицца кота Стафчика - Самая вкусная пицца</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #ff6b6b;
+        }
+
+        .logo .cat {
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .nav-links a:hover {
+            color: #ff6b6b;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: #ff6b6b;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.8rem;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('images/fon.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #ff6b6b;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: transform 0.3s, background 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+        }
+
+        .menu-section {
+            padding: 4rem 0;
+            background: #f8f9fa;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .pizza-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .pizza-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .pizza-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .pizza-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .pizza-info {
+            padding: 1.5rem;
+        }
+
+        .pizza-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .pizza-original-name {
+            color: #ff6b6b;
+            font-style: italic;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pizza-description {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .pizza-price {
+            font-size: 1.5rem;
+            color: #ff6b6b;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 10px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background: #ff5252;
+        }
+
+        .cart-sidebar {
+            position: fixed;
+            right: -400px;
+            top: 0;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            transition: right 0.3s;
+            z-index: 1001;
+            overflow-y: auto;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 1.5rem;
+            background: #333;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-items {
+            padding: 1.5rem;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-info h4 {
+            margin-bottom: 0.3rem;
+        }
+
+        .cart-item-price {
+            color: #ff6b6b;
+        }
+
+        .cart-item-actions button {
+            background: #ddd;
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            margin: 0 3px;
+        }
+
+        .cart-total {
+            padding: 1.5rem;
+            border-top: 2px solid #eee;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 12px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 1000;
+        }
+
+        .overlay.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <span class="cat">🐱</span> Пицца <span>кота Стафчика</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="order.html">Оформить заказ</a></li>
+                </ul>
+                <div class="cart-icon" onclick="toggleCart()">
+                    🛒 <span class="cart-count" id="cartCount">0</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>🐱 Пицца от кота Стафчика! 🍕</h1>
+                <p>Самые вкусные пиццы с любовью от пушистого повара!</p>
+                <a href="#menu" class="btn">Смотреть меню</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="menu-section">
+        <div class="container">
+            <h2 class="section-title">🐱 Меню от кота Стафчика 🍕</h2>
+            <div class="pizza-grid" id="pizzaGrid"></div>
+        </div>
+    </section>
+
+    <div class="overlay" id="overlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>🐱 Корзина кота Стафчика</h3>
+            <button onclick="toggleCart()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-total" id="cartTotal">
+            <h3>Итого: 0 ₽</h3>
+        </div>
+    </div>
+
+    <script>
+        // ===== МАССИВ С ПИЦЦАМИ =====
+      const pizzas = [
+    { id: 1, name: "Мурчащая Маргарита", originalName: "Purring Margherita", description: "Томатный соус, моцарелла, базилик от кота", price: 450, image: "images/pizzamarg.jpg" },
+    { id: 2, name: "Царапки Пепперони", originalName: "Scratch Pepperoni", description: "Острый пепперони, сырный соус, моцарелла", price: 550, image: "images/pizzapeper.jpg" },
+    { id: 3, name: "Кошачье счастье", originalName: "Cat's Happiness", description: "Курица, ананас, моцарелла, секретный соус кота", price: 520, image: "images/pizagav.jpg" },
+    { id: 4, name: "Мяу-сырная", originalName: "Meow Cheese", description: "4 сыра: моцарелла, пармезан, горгонзола, фета", price: 580, image: "images/pizzasir.jpg" },
+    { id: 5, name: "Котяра мясной", originalName: "Big Cat Meat", description: "Бекон, ветчина, пепперони, охотничьи колбаски", price: 650, image: "images/pizzamaso.jpg" },
+    { id: 6, name: "Лапка вегетарианца", originalName: "Paw Veggie", description: "Перец, грибы, оливки, лук, помидоры от кота", price: 490, image: "images/pizzaveg.jpg" },
+    { id: 7, name: "Сонный котик", originalName: "Sleepy Kitty", description: "Нежная пицца с лососем, сливочный соус", price: 690, image: "images/pizzarib.jpg" },
+    { id: 8, name: "Стафчик special", originalName: "Staffchik Special", description: "Секретная пицца от самого кота Стафчика!", price: 750, image: "images/pizzasecret.jpg" }
+];
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function saveCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            updateCartDisplay();
+        }
+
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCountEl = document.getElementById('cartCount');
+            if (cartCountEl) cartCountEl.textContent = count;
+        }
+
+        function addToCart(pizzaId) {
+            const pizza = pizzas.find(p => p.id === pizzaId);
+            const existingItem = cart.find(item => item.id === pizzaId);
+            
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ ...pizza, quantity: 1 });
+            }
+            
+            saveCart();
+            alert(`🐱 Мяу! ${pizza.name} добавлена в корзину!`);
+        }
+
+        function removeFromCart(pizzaId) {
+            const index = cart.findIndex(item => item.id === pizzaId);
+            if (index > -1) {
+                cart.splice(index, 1);
+                saveCart();
+            }
+        }
+
+        function updateQuantity(pizzaId, change) {
+            const item = cart.find(item => item.id === pizzaId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(pizzaId);
+                } else {
+                    saveCart();
+                }
+            }
+        }
+
+        function updateCartDisplay() {
+            const cartItemsDiv = document.getElementById('cartItems');
+            const cartTotalDiv = document.getElementById('cartTotal');
+            
+            if (!cartItemsDiv) return;
+            
+            if (cart.length === 0) {
+                cartItemsDiv.innerHTML = '<p style="text-align: center; color: #999;">🐱 Корзина пуста... Добавьте пиццы!</p>';
+                if (cartTotalDiv) cartTotalDiv.innerHTML = '<h3>Итого: 0 ₽</h3>';
+                return;
+            }
+            
+            let itemsHtml = '';
+            let total = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                itemsHtml += `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <h4>${item.name}</h4>
+                            <div class="cart-item-price">${item.price} ₽</div>
+                        </div>
+                        <div class="cart-item-actions">
+                            <button onclick="updateQuantity(${item.id}, -1)">-</button>
+                            <span>${item.quantity}</span>
+                            <button onclick="updateQuantity(${item.id}, 1)">+</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            cartItemsDiv.innerHTML = itemsHtml;
+            if (cartTotalDiv) {
+                cartTotalDiv.innerHTML = `
+                    <h3>Итого: ${total} ₽</h3>
+                    <a href="order.html" class="checkout-btn">🐱 Оформить заказ →</a>
+                `;
+            }
+        }
+
+        function toggleCart() {
+            const sidebar = document.getElementById('cartSidebar');
+            const overlay = document.getElementById('overlay');
+            if (sidebar) sidebar.classList.toggle('open');
+            if (overlay) overlay.classList.toggle('show');
+        }
+
+        // ОТОБРАЖЕНИЕ ПИЦЦ - ГЛАВНАЯ ФУНКЦИЯ
+        function displayPizzas() {
+            const grid = document.getElementById('pizzaGrid');
+            
+            // Проверка - существует ли элемент на странице
+            if (!grid) {
+                console.error('Элемент pizzaGrid не найден!');
+                return;
+            }
+            
+            // Очищаем сетку
+            grid.innerHTML = '';
+            
+            // Проходим по всем пиццам и добавляем их
+            for (let i = 0; i < pizzas.length; i++) {
+                const pizza = pizzas[i];
+                const pizzaCard = document.createElement('div');
+                pizzaCard.className = 'pizza-card';
+                pizzaCard.innerHTML = `
+                    <img src="${pizza.image}" alt="${pizza.name}" class="pizza-image" onerror="this.src='https://via.placeholder.com/300x200?text=🍕'">
+                    <div class="pizza-info">
+                        <h3 class="pizza-title">🐱 ${pizza.name}</h3>
+                        <div class="pizza-original-name">${pizza.originalName}</div>
+                        <p class="pizza-description">${pizza.description}</p>
+                        <div class="pizza-price">${pizza.price} ₽</div>
+                        <button class="add-to-cart" onclick="addToCart(${pizza.id})">🐱 В корзину</button>
+                    </div>
+                `;
+                grid.appendChild(pizzaCard);
+            }
+            
+            console.log('Пиццы загружены! Количество:', pizzas.length);
+        }
+
+        // Запускаем отображение когда страница загрузилась
+        document.addEventListener('DOMContentLoaded', function() {
+            displayPizzas();
+            updateCartCount();
+            updateCartDisplay();
+        });
+    </script>
+</body>
+</html>
