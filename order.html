@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оформление заказа - Пицца кота Стафчика</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url('images/bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: scroll;
+    min-height: 100vh;
+}
+        
+
+        header {
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #ff6b6b;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ff6b6b;
+        }
+
+        .order-section {
+            padding: 3rem 0;
+        }
+
+        .order-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .order-summary, .delivery-info {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+            border-bottom: 3px solid #ff6b6b;
+            padding-bottom: 0.5rem;
+        }
+
+        .cart-items-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-item-name {
+            font-weight: bold;
+        }
+
+        .order-item-price {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #ff6b6b;
+        }
+
+        .distance-info {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .distance-info h4 {
+            color: #ff6b6b;
+            margin-bottom: 0.5rem;
+        }
+
+        .distance-info ul {
+            margin-left: 1.5rem;
+        }
+
+        .distance-info li {
+            margin: 0.3rem 0;
+        }
+
+        .price-breakdown {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+        }
+
+        .total-row {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #ff6b6b;
+            border-top: 2px solid #ddd;
+            padding-top: 0.8rem;
+            margin-top: 0.8rem;
+        }
+
+        .discount-badge {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 10px;
+            padding: 0.8rem;
+            margin-top: 1rem;
+            color: #155724;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background: #218838;
+        }
+
+        .cat-thanks {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 15px;
+            padding: 1rem;
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 1.1rem;
+            color: #856404;
+        }
+
+        @media (max-width: 768px) {
+            .order-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .logo {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">🐱 Пицца <span>кота Стафчика</span></div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="order.html">Оформить заказ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="order-section">
+        <div class="container">
+            <div class="order-grid">
+                <div class="order-summary">
+                    <h2 class="section-title">🐱 Ваш заказ</h2>
+                    <div id="cartItems" class="cart-items-list"></div>
+                    <div id="priceBreakdown" class="price-breakdown"></div>
+                </div>
+
+                <div class="delivery-info">
+                    <h2 class="section-title">🐱 Информация о доставке</h2>
+                    <form id="orderForm">
+                        <div class="form-group">
+                            <label>Ваше имя *</label>
+                            <input type="text" id="customerName" required placeholder="Введите ваше имя">
+                        </div>
+                        <div class="form-group">
+                            <label>Телефон *</label>
+                            <input type="tel" id="customerPhone" required placeholder="+7 (XXX) XXX-XX-XX">
+                        </div>
+                        <div class="form-group">
+                            <label>Адрес доставки *</label>
+                            <input type="text" id="deliveryAddress" required placeholder="Улица, дом, квартира">
+                        </div>
+                        <div class="form-group">
+                            <label>Расстояние до ресторана (км) *</label>
+                            <input type="number" id="distance" step="0.1" min="0" max="20" required placeholder="Например: 2.5">
+                            <div class="distance-info">
+                                <h4>🐱 Условия скидки от кота Стафчика:</h4>
+                                <ul>
+                                    <li>📍 До 3 км - скидка 15% 🎉</li>
+                                    <li>📍 3-5 км - скидка 5% 👍</li>
+                                    <li>📍 Более 5 км - без скидки</li>
+                                    <li>🚚 Бесплатная доставка при заказе от 1500 ₽</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Способ оплаты</label>
+                            <select id="paymentMethod">
+                                <option value="card">💳 Картой онлайн</option>
+                                <option value="cash">💵 Наличными курьеру</option>
+                                <option value="card_delivery">💳 Картой курьеру</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Комментарий к заказу</label>
+                            <input type="text" id="comment" placeholder="Домофон, этаж, подъезд...">
+                        </div>
+                        <button type="submit" class="submit-btn">🐱 Подтвердить заказ</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function calculateDiscount(distance, subtotal) {
+            let discountPercent = 0;
+            if (distance < 3) {
+                discountPercent = 15;
+            } else if (distance >= 3 && distance < 5) {
+                discountPercent = 5;
+            }
+            
+            const discountAmount = (subtotal * discountPercent) / 100;
+            let deliveryCost = 0;
+            
+            if (subtotal < 1500) {
+                if (distance < 3) {
+                    deliveryCost = 50;
+                } else if (distance < 5) {
+                    deliveryCost = 100;
+                } else {
+                    deliveryCost = 150;
+                }
+            }
+            
+            return { discountPercent, discountAmount, deliveryCost };
+        }
+
+        function displayCart() {
+            const cartItemsDiv = document.getElementById('cartItems');
+            const priceBreakdownDiv = document.getElementById('priceBreakdown');
+            
+            if (cart.length === 0) {
+                cartItemsDiv.innerHTML = '<p style="text-align: center; color: #999;">🐱 Корзина пуста. <a href="index.html" style="color: #ff6b6b;">Вернуться в меню</a></p>';
+                priceBreakdownDiv.innerHTML = '';
+                return;
+            }
+            
+            let itemsHtml = '';
+            let subtotal = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                itemsHtml += `
+                    <div class="order-item">
+                        <div>
+                            <div class="order-item-name">🐱 ${item.name}</div>
+                            <div style="font-size: 0.9rem; color: #666;">${item.quantity} шт.</div>
+                        </div>
+                        <div class="order-item-price">${itemTotal} ₽</div>
+                    </div>
+                `;
+            });
+            
+            cartItemsDiv.innerHTML = itemsHtml;
+            
+            function updatePrices() {
+                const distance = parseFloat(document.getElementById('distance')?.value) || 0;
+                const { discountPercent, discountAmount, deliveryCost } = calculateDiscount(distance, subtotal);
+                const total = subtotal - discountAmount + deliveryCost;
+                
+                priceBreakdownDiv.innerHTML = `
+                    <div class="price-row">
+                        <span>Сумма заказа:</span>
+                        <span>${subtotal} ₽</span>
+                    </div>
+                    ${discountAmount > 0 ? `
+                        <div class="price-row" style="color: #28a745;">
+                            <span>🎉 Скидка (${discountPercent}%):</span>
+                            <span>-${discountAmount} ₽</span>
+                        </div>
+                    ` : ''}
+                    <div class="price-row">
+                        <span>🚚 Доставка:</span>
+                        <span>${deliveryCost === 0 ? 'Бесплатно' : deliveryCost + ' ₽'}</span>
+                    </div>
+                    <div class="total-row">
+                        <span>🐱 ИТОГО К ОПЛАТЕ:</span>
+                        <span>${Math.round(total)} ₽</span>
+                    </div>
+                    ${discountAmount > 0 ? `
+                        <div class="discount-badge">
+                            🎉 Кот Стафчик даёт скидку ${discountPercent}%! 🐱
+                        </div>
+                    ` : ''}
+                    ${subtotal >= 1500 ? `
+                        <div class="discount-badge" style="background: #d1ecf1; border-color: #17a2b8; color: #0c5460;">
+                            🎁 Бесплатная доставка от кота Стафчика!
+                        </div>
+                    ` : ''}
+                `;
+            }
+            
+            const distanceInput = document.getElementById('distance');
+            if (distanceInput) {
+                distanceInput.addEventListener('input', updatePrices);
+            }
+            
+            updatePrices();
+        }
+
+        document.getElementById('orderForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (cart.length === 0) {
+                alert('🐱 Корзина пуста! Добавьте пиццы.');
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            const name = document.getElementById('customerName').value;
+            if (!name) {
+                alert('🐱 Введите ваше имя!');
+                return;
+            }
+            
+            alert(`🐱 Спасибо, ${name}! Кот Стафчик благодарит вас за заказ!\n\nОжидайте звонка оператора. 🍕`);
+            localStorage.setItem('cart', '[]');
+            window.location.href = 'index.html';
+        });
+        
+        displayCart();
+    </script>
+</body>
+</html>
